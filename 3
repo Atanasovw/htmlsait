@@ -1,0 +1,101 @@
+Ето един възможен пример на програма на C#, която отговаря на посочените изисквания:
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+// Абстрактен клас за коли
+abstract class Car
+{
+    public string RegistrationNumber { get; set; }
+    public string Brand { get; set; }
+    public string Model { get; set; }
+    public int Year { get; set; }
+
+    // Абстрактен метод за проверка на марка на колата
+    public abstract bool IsBrand(string brand);
+}
+
+// Дъщерен клас за спортни коли
+class SportsCar : Car
+{
+    public int Horsepower { get; set; }
+
+    public override bool IsBrand(string brand)
+    {
+        return Brand.Equals(brand, StringComparison.OrdinalIgnoreCase);
+    }
+}
+
+// Дъщерен клас за SUV коли
+class SuvCar : Car
+{
+    public int CargoCapacity { get; set; }
+
+    public override bool IsBrand(string brand)
+    {
+        return Brand.Equals(brand, StringComparison.OrdinalIgnoreCase);
+    }
+}
+
+class Program
+{
+    static List<Car> cars = new List<Car>();
+
+    static void Main(string[] args)
+    {
+        // Въвеждане на данни за колите
+        AddCar(new SportsCar
+        {
+            RegistrationNumber = "ABC123",
+            Brand = "Ferrari",
+            Model = "458 Italia",
+            Year = 2015,
+            Horsepower = 562
+        });
+
+        AddCar(new SuvCar
+        {
+            RegistrationNumber = "DEF456",
+            Brand = "Land Rover",
+            Model = "Range Rover Sport",
+            Year = 2019,
+            CargoCapacity = 780
+        });
+
+        AddCar(new SuvCar
+        {
+            RegistrationNumber = "GHI789",
+            Brand = "Toyota",
+            Model = "RAV4",
+            Year = 2020,
+            CargoCapacity = 580
+        });
+
+        // Извеждане на информацията за всички коли
+        Console.WriteLine("Информация за всички коли:");
+        PrintAllCars();
+
+        // Извеждане на информацията за кола по зададен регистрационен номер
+        string searchRegistrationNumber = "DEF456";
+        Console.WriteLine($"\nИнформация за кола с регистрационен номер {searchRegistrationNumber}:");
+        PrintCarByRegistrationNumber(searchRegistrationNumber);
+
+        // Преброяване на колите от дадена марка
+        string searchBrand = "Toyota";
+        int count = CountCarsByBrand(searchBrand);
+        Console.WriteLine($"\nБрой коли от марка {searchBrand}: {count}");
+
+        // Извеждане на информацията за колата с най-малък регистрационен номер
+        Console.WriteLine("\nИнформация за колата с най-малък регистрационен номер (като число):");
+        PrintCarWithSmallestRegistrationNumber();
+
+        // Сортиране на данните по регистрационен номер
+        SortCarsByRegistrationNumber();
+        Console.WriteLine("\nСортирани коли по регистрационен номер:");
+        PrintAllCars();
+
+        // Запис на данните във файл
+        string
